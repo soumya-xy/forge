@@ -1,0 +1,322 @@
+[
+  {
+    "id": "r001",
+    "name": "YC Startup School",
+    "category": "mentorship_networks",
+    "description": "Free 10-week online program by Y Combinator with lectures, group office hours, and a global founder community — no equity taken.",
+    "url": "https://www.startupschool.org",
+    "tags": ["free", "online", "global", "early-stage", "no-equity"]
+  },
+  {
+    "id": "r002",
+    "name": "iStart Rajasthan — Pre-Seed Grant",
+    "category": "student_grants",
+    "description": "Government of Rajasthan gives up to ₹2.4 lakh in ideation-stage grants to registered startups; women-led startups get up to ₹3 lakh.",
+    "url": "https://istart.rajasthan.gov.in/funding-incentives",
+    "tags": ["india", "rajasthan", "grant", "pre-seed", "government", "equity-free"]
+  },
+  {
+    "id": "r003",
+    "name": "Startup India Seed Fund Scheme (SISFS)",
+    "category": "student_grants",
+    "description": "DPIIT scheme providing up to ₹20 lakh for proof-of-concept and up to ₹50 lakh for market-entry stage startups via empanelled incubators.",
+    "url": "https://seedfund.startupindia.gov.in",
+    "tags": ["india", "government", "seed", "dpiit", "incubator-linked"]
+  },
+  {
+    "id": "r004",
+    "name": "AICTE Productization Fellowship (APF)",
+    "category": "student_grants",
+    "description": "AICTE initiative supporting innovative ideas from students in AICTE-approved institutions, aligned with Atmanirbhar Bharat goals.",
+    "url": "https://www.aicte-india.org/schemes/students-development-schemes",
+    "tags": ["india", "aicte", "students", "fellowship", "technical-education"]
+  },
+  {
+    "id": "r005",
+    "name": "Tally Forms",
+    "category": "community_validation",
+    "description": "Free form builder for surveys, idea validation, and waitlist landing pages — no code required, unlimited responses on free plan.",
+    "url": "https://tally.so",
+    "tags": ["free", "no-code", "surveys", "validation", "landing-page"]
+  },
+  {
+    "id": "r006",
+    "name": "Typeform",
+    "category": "community_validation",
+    "description": "Conversational survey tool ideal for qualitative user research — free tier supports 10 questions and 100 responses/month.",
+    "url": "https://www.typeform.com",
+    "tags": ["freemium", "surveys", "user-research", "qualitative"]
+  },
+  {
+    "id": "r007",
+    "name": "Reddit (r/startups, r/Entrepreneur, r/IndiaBusiness)",
+    "category": "community_validation",
+    "description": "Post your idea or problem hypothesis in active subreddits to get brutally honest feedback from founders and early adopters worldwide.",
+    "url": "https://www.reddit.com/r/startups",
+    "tags": ["free", "community", "feedback", "global", "anonymous"]
+  },
+  {
+    "id": "r008",
+    "name": "Bubble",
+    "category": "no_code_tools",
+    "description": "Visual full-stack no-code platform for building web apps with databases, user auth, and APIs — free tier sufficient for MVPs.",
+    "url": "https://bubble.io",
+    "tags": ["no-code", "web-app", "freemium", "mvp", "database"]
+  },
+  {
+    "id": "r009",
+    "name": "Glide Apps",
+    "category": "no_code_tools",
+    "description": "Turn a Google Sheet into a mobile app in minutes — ideal for internal tools, simple marketplaces, or directory MVPs.",
+    "url": "https://www.glideapps.com",
+    "tags": ["no-code", "mobile", "google-sheets", "freemium", "mvp"]
+  },
+  {
+    "id": "r010",
+    "name": "Webflow",
+    "category": "no_code_tools",
+    "description": "Professional website builder with CMS and hosting — use for landing pages, portfolios, or content-driven product sites without writing code.",
+    "url": "https://webflow.com",
+    "tags": ["no-code", "website", "landing-page", "freemium", "cms"]
+  },
+  {
+    "id": "r011",
+    "name": "Replit",
+    "category": "technical_infrastructure",
+    "description": "Browser-based coding environment that lets you build, run, and deploy apps instantly — great for fast prototyping without local setup.",
+    "url": "https://replit.com",
+    "tags": ["code", "deployment", "free", "prototype", "online-ide"]
+  },
+  {
+    "id": "r012",
+    "name": "Vercel",
+    "category": "technical_infrastructure",
+    "description": "Free hosting for frontend apps and serverless functions — deploy a Next.js or React MVP from GitHub in under 2 minutes.",
+    "url": "https://vercel.com",
+    "tags": ["free", "hosting", "deployment", "frontend", "serverless"]
+  },
+  {
+    "id": "r013",
+    "name": "Supabase",
+    "category": "technical_infrastructure",
+    "description": "Open-source Firebase alternative with PostgreSQL database, auth, and storage — generous free tier for early-stage products.",
+    "url": "https://supabase.com",
+    "tags": ["free", "database", "backend", "open-source", "auth"]
+  },
+  {
+    "id": "r014",
+    "name": "GrowthMentor",
+    "category": "mentorship_networks",
+    "description": "On-demand 1:1 mentorship calls with vetted startup operators — free plan includes limited sessions; useful for targeted advice.",
+    "url": "https://www.growthmentor.com",
+    "tags": ["mentorship", "1-on-1", "startup", "freemium", "global"]
+  },
+  {
+    "id": "r015",
+    "name": "LinkedIn Startup Communities",
+    "category": "mentorship_networks",
+    "description": "Search LinkedIn groups and newsletters for domain-specific founder communities — useful for warm intros and advisor discovery.",
+    "url": "https://www.linkedin.com/groups",
+    "tags": ["free", "networking", "mentorship", "professional", "india"]
+  },
+  {
+    "id": "r016",
+    "name": "iStart Nest — Virtual Incubation Program",
+    "category": "mentorship_networks",
+    "description": "Government of Rajasthan's virtual incubation program giving startups mentorship, exposure, and access to the iStart ecosystem remotely.",
+    "url": "https://istart.rajasthan.gov.in",
+    "tags": ["india", "rajasthan", "incubation", "free", "virtual", "government"]
+  },
+  {
+    "id": "r017",
+    "name": "Antler",
+    "category": "student_grants",
+    "description": "Global early-stage VC program that invests in founders from day zero — India cohorts run in Bangalore; provides stipend, co-founder matching, and seed capital.",
+    "url": "https://www.antler.co/location/india",
+    "tags": ["equity", "accelerator", "india", "co-founder", "seed"]
+  },
+  {
+    "id": "r018",
+    "name": "Entrepreneur First (EF) India",
+    "category": "student_grants",
+    "description": "Pre-team, pre-idea program that recruits ambitious individuals, pays a stipend, and helps form founding teams — invests at incorporation.",
+    "url": "https://www.joinef.com/locations/bangalore",
+    "tags": ["equity", "stipend", "co-founder", "early-stage", "india"]
+  },
+  {
+    "id": "r019",
+    "name": "First Round Capital Essays",
+    "category": "learning_resources",
+    "description": "Deep, practitioner-written articles on company building — covers hiring, product, culture, and early traction; free and one of the best reading lists for founders.",
+    "url": "https://review.firstround.com",
+    "tags": ["free", "reading", "essays", "founders", "strategy"]
+  },
+  {
+    "id": "r020",
+    "name": "Lenny's Newsletter",
+    "category": "learning_resources",
+    "description": "Weekly deep dives on product-market fit, growth, and early-stage product decisions — free tier covers most foundational content.",
+    "url": "https://www.lennysnewsletter.com",
+    "tags": ["free", "product", "growth", "newsletter", "pmf"]
+  },
+  {
+    "id": "r021",
+    "name": "Paul Graham Essays",
+    "category": "learning_resources",
+    "description": "Timeless essays on startups, ideas, and founder psychology from the co-founder of Y Combinator — read 'Do Things That Don't Scale' first.",
+    "url": "http://paulgraham.com/articles.html",
+    "tags": ["free", "essays", "founders", "mindset", "strategy"]
+  },
+  {
+    "id": "r022",
+    "name": "Coursera — Product Management by Google",
+    "category": "learning_resources",
+    "description": "Free-to-audit Google PM certificate on Coursera covering problem framing, MVP design, and user research — practical and structured.",
+    "url": "https://www.coursera.org/professional-certificates/google-project-management",
+    "tags": ["free-to-audit", "course", "product", "google", "structured"]
+  },
+  {
+    "id": "r023",
+    "name": "Notion (Free Plan)",
+    "category": "no_code_tools",
+    "description": "All-in-one workspace for documenting assumptions, tracking milestones, and building lightweight internal tools — free for individuals.",
+    "url": "https://www.notion.so",
+    "tags": ["free", "productivity", "documentation", "planning", "collaboration"]
+  },
+  {
+    "id": "r024",
+    "name": "Airtable (Free Tier)",
+    "category": "no_code_tools",
+    "description": "Spreadsheet-database hybrid for managing user research, resource tracking, or lightweight CRM — free for up to 1,000 records.",
+    "url": "https://airtable.com",
+    "tags": ["free", "database", "no-code", "spreadsheet", "crm"]
+  },
+  {
+    "id": "r025",
+    "name": "IndiaMART Community Forums",
+    "category": "market_research",
+    "description": "India's largest B2B platform — browse supplier listings and buyer RFQs to understand real demand signals in physical-product categories.",
+    "url": "https://www.indiamart.com",
+    "tags": ["india", "market-research", "b2b", "demand-validation", "free"]
+  },
+  {
+    "id": "r026",
+    "name": "Statista (Free Reports)",
+    "category": "market_research",
+    "description": "Access free-tier market size reports, industry charts, and consumer behavior data across hundreds of sectors globally.",
+    "url": "https://www.statista.com",
+    "tags": ["freemium", "data", "market-research", "reports", "global"]
+  },
+  {
+    "id": "r027",
+    "name": "Google Trends",
+    "category": "market_research",
+    "description": "Free tool to track search interest over time for any keyword — useful for validating whether a problem is growing, shrinking, or seasonal.",
+    "url": "https://trends.google.com",
+    "tags": ["free", "keyword", "demand", "trends", "market-research"]
+  },
+  {
+    "id": "r028",
+    "name": "Discord (community building)",
+    "category": "community_validation",
+    "description": "Build a small private server for early adopters or beta testers — free, instant, and lets you run async feedback sessions with real users.",
+    "url": "https://discord.com",
+    "tags": ["free", "community", "beta-testing", "async", "communication"]
+  },
+  {
+    "id": "r029",
+    "name": "WhatsApp Business API (via Twilio)",
+    "category": "community_validation",
+    "description": "Run lightweight user interviews and onboarding flows over WhatsApp — highly effective for India-specific user research with non-English audiences.",
+    "url": "https://www.twilio.com/whatsapp",
+    "tags": ["india", "user-research", "mobile", "interviews", "api"]
+  },
+  {
+    "id": "r030",
+    "name": "NASSCOM 10,000 Startups",
+    "category": "mentorship_networks",
+    "description": "India's largest startup enablement program connecting founders with mentors, investors, and enterprise clients across sectors.",
+    "url": "https://10000startups.com",
+    "tags": ["india", "mentorship", "network", "enterprise", "free-to-apply"]
+  },
+  {
+    "id": "r031",
+    "name": "Startup India DPIIT Recognition",
+    "category": "student_grants",
+    "description": "Get DPIIT-recognized startup status — unlocks tax benefits, fast-track IP filing, and eligibility for all central government startup schemes.",
+    "url": "https://www.startupindia.gov.in/content/sih/en/startupgov/get-recognized.html",
+    "tags": ["india", "government", "recognition", "tax-benefit", "ip", "dpiit"]
+  },
+  {
+    "id": "r032",
+    "name": "Figma (Free Plan)",
+    "category": "no_code_tools",
+    "description": "Industry-standard design tool for building wireframes, mockups, and clickable prototypes — free for up to 3 active projects.",
+    "url": "https://www.figma.com",
+    "tags": ["free", "design", "prototype", "wireframe", "ui-ux"]
+  },
+  {
+    "id": "r033",
+    "name": "Lean Canvas (Miro Template)",
+    "category": "market_research",
+    "description": "Free one-page business model canvas on Miro — forces you to articulate problem, solution, key metrics, and unfair advantage in under 20 minutes.",
+    "url": "https://miro.com/templates/lean-canvas",
+    "tags": ["free", "framework", "business-model", "strategy", "lean"]
+  },
+  {
+    "id": "r034",
+    "name": "AWS Activate (Founders Tier)",
+    "category": "technical_infrastructure",
+    "description": "Free AWS credits for early-stage startups — up to $1,000 in cloud credits plus technical support to build and host your MVP.",
+    "url": "https://aws.amazon.com/activate",
+    "tags": ["free-credits", "cloud", "aws", "hosting", "startup"]
+  },
+  {
+    "id": "r035",
+    "name": "Microsoft for Startups (Founders Hub)",
+    "category": "technical_infrastructure",
+    "description": "Free Azure credits up to $150K, GitHub Copilot access, and Microsoft 365 for qualifying startups — no equity taken.",
+    "url": "https://www.microsoft.com/en-us/startups",
+    "tags": ["free-credits", "azure", "github", "cloud", "no-equity"]
+  },
+  {
+    "id": "r036",
+    "name": "The Minimalist Entrepreneur (Book Summary)",
+    "category": "learning_resources",
+    "description": "Sahil Lavingia's framework for building a profitable, community-first business without VC funding — free summary and key excerpts widely available.",
+    "url": "https://www.minimalistentrepreneur.com",
+    "tags": ["free", "book", "bootstrapping", "community", "profitability"]
+  },
+  {
+    "id": "r037",
+    "name": "Ycombinator Requests for Startups",
+    "category": "market_research",
+    "description": "YC's publicly updated list of problem spaces they want founders to work on — useful for validating if your idea is in a high-signal area.",
+    "url": "https://www.ycombinator.com/rfs",
+    "tags": ["free", "market-signal", "validation", "vc-perspective", "global"]
+  },
+  {
+    "id": "r038",
+    "name": "Internshala (User Research Recruitment)",
+    "category": "community_validation",
+    "description": "India's largest internship platform — post a paid micro-task or survey to recruit student participants for quick user research at low cost.",
+    "url": "https://internshala.com",
+    "tags": ["india", "user-research", "students", "recruitment", "affordable"]
+  },
+  {
+    "id": "r039",
+    "name": "LNMIIT Incubation Centre (TBI)",
+    "category": "mentorship_networks",
+    "description": "Technology Business Incubator at LNM Institute of Information Technology, Jaipur — provides mentorship, workspace, and seed funding access to student founders.",
+    "url": "https://www.lnmiit.ac.in",
+    "tags": ["india", "rajasthan", "jaipur", "university", "incubation", "student-founders"]
+  },
+  {
+    "id": "r040",
+    "name": "Zoho One (Startup Bundle)",
+    "category": "no_code_tools",
+    "description": "Suite of 40+ business apps (CRM, email, forms, projects) with a free trial — useful for student teams building lean internal operations.",
+    "url": "https://www.zoho.com/one",
+    "tags": ["india", "freemium", "crm", "operations", "suite", "all-in-one"]
+  }
+]

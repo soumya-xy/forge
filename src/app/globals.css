@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 48 20% 98%; /* #FBFBFA */
-    --foreground: 60 6% 9%;    /* #1A1A17 */
-    --card: 0 0% 100%;        /* #FFFFFF */
-    --card-foreground: 60 6% 9%;
+    --background: 40 18% 96%;        /* #F8F6F2 */
+    --foreground: 0 0% 10%;          /* #1A1A1A */
+    --card: 0 0% 100%;               /* #FFFFFF */
+    --card-foreground: 0 0% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 60 6% 9%;
-    --primary: 153 20% 26%;   /* #344E41 - Sage Green */
-    --primary-foreground: 48 20% 98%;
-    --secondary: 48 10% 95%;
-    --secondary-foreground: 60 6% 9%;
-    --muted: 51 3% 41%;       /* #6B6A65 - Slate Gray */
-    --muted-foreground: 51 3% 41%;
-    --accent: 153 20% 26%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 18 86% 41%;           /* #C1440E - Terracotta */
+    --primary-foreground: 40 18% 96%;
+    --secondary: 60 6% 92%;          /* #EDEDEA - Light warm gray */
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 40%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 18 86% 41%;            /* #C1440E */
     --accent-foreground: 0 0% 100%;
-    --destructive: 11 50% 42%; /* #A24836 - Terracotta Red */
+    --destructive: 33 91% 44%;       /* #D97706 - Muted Amber for risks */
     --destructive-foreground: 0 0% 100%;
-    --border: 50 14% 91%;     /* #EBEAE4 */
-    --input: 50 14% 91%;
-    --ring: 153 20% 26%;
+    --border: 60 6% 88%;
+    --input: 60 6% 88%;
+    --ring: 18 86% 41%;
     --radius: 0.5rem;
   }
 }
@@ -50,4 +50,30 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Shimmer animation for loaders */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-loader {
+  background: linear-gradient(90deg, #EDEDEA 25%, #F4F3F0 50%, #EDEDEA 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
 }
