@@ -2,26 +2,23 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Loader2, Plus, X, Lightbulb } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { ArrowRight, Plus, X, Lightbulb } from "lucide-react";
 
-interface StageIntakeProps {
+interface StageMultiIdeaInputProps {
   onSubmit: (ideas: string[]) => void;
-  isLoading: boolean;
-  lastIdeaTitle?: string;
-  onRestoreLastIdea?: () => void;
+  isLoading?: boolean;
 }
 
 const MAX_IDEAS = 3;
+const MIN_IDEAS = 1;
 const MIN_CHARS = 10;
 
-export default function StageIntake({
+export default function StageMultiIdeaInput({
   onSubmit,
-  isLoading,
-  lastIdeaTitle,
-  onRestoreLastIdea
-}: StageIntakeProps) {
+  isLoading = false,
+}: StageMultiIdeaInputProps) {
   const [ideas, setIdeas] = useState<string[]>([""]);
 
   const updateIdea = (index: number, value: string) => {
@@ -37,36 +34,36 @@ export default function StageIntake({
   };
 
   const removeIdea = (index: number) => {
-    if (ideas.length > 1) {
+    if (ideas.length > MIN_IDEAS) {
       setIdeas(ideas.filter((_, i) => i !== index));
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     const validIdeas = ideas.filter((idea) => idea.trim().length >= MIN_CHARS);
-    if (validIdeas.length >= 1) {
+    if (validIdeas.length >= MIN_IDEAS) {
       onSubmit(validIdeas);
     }
   };
 
+  const isValidCount = ideas.filter((idea) => idea.trim().length >= MIN_CHARS).length >= MIN_IDEAS;
   const canAddMore = ideas.length < MAX_IDEAS;
-  const canRemove = ideas.length > 1;
-  const isValidCount = ideas.filter((idea) => idea.trim().length >= MIN_CHARS).length >= 1;
+  const canRemove = ideas.length > MIN_IDEAS;
 
   return (
-    <Card className="border-none shadow-none bg-[#EDEDEA] p-6 rounded-xl">
-      <CardHeader className="text-center pb-4">
+    <Card className="border-none shadow-none bg-[#EDEDEA] p-6 rounded-xl max-w-3xl mx-auto">
+      <CardHeader className="text-center pb-6">
         <CardTitle className="text-3xl font-headline tracking-tight text-[#1A1A1A]">
-          What are you building?
+          What are you considering?
         </CardTitle>
         <CardDescription className="text-sm text-[#1A1A1A]/70 font-body max-w-md mx-auto mt-2">
-          Deconstruct your early-stage product or business idea. Share your vague thoughts, assumptions, or problem statements, and we will extract the friction.
-          {ideas.length > 1 && ` You can enter up to ${MAX_IDEAS} ideas to analyze together.`}
+          You can enter up to 3 startup ideas. We'll analyze them together to find patterns, conflicts, and
+          complementarities.
         </CardDescription>
       </CardHeader>
+
       <CardContent className="space-y-6">
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-4">
           {ideas.map((idea, index) => (
             <div key={index} className="relative">
               <div className="flex items-center justify-between mb-2">
@@ -75,7 +72,7 @@ export default function StageIntake({
                   className="text-sm font-bold text-[#1A1A1A]/70 uppercase tracking-widest font-body flex items-center gap-2"
                 >
                   <Lightbulb className="w-4 h-4 text-primary" />
-                  {ideas.length > 1 ? `Idea ${index + 1} of ${MAX_IDEAS}` : "Your idea"}
+                  Idea {index + 1} of {MAX_IDEAS}
                 </label>
                 {canRemove && (
                   <Button
@@ -93,11 +90,11 @@ export default function StageIntake({
               </div>
               <Textarea
                 id={`idea-${index}`}
-                placeholder="e.g. A marketplace for college students to rent out their dorm furniture over summer break..."
-                className="min-h-[180px] text-base leading-relaxed bg-[#F8F6F2] border-[#border] focus-visible:ring-primary text-[#1A1A1A] font-body"
                 value={idea}
                 onChange={(e) => updateIdea(index, e.target.value)}
                 disabled={isLoading}
+                placeholder="Describe your startup idea in a few sentences..."
+                className="min-h-[120px] resize-y bg-white border-[#EDEDEA] focus:border-primary focus:ring-primary/20"
               />
               <div className="flex justify-between mt-1">
                 <span className="text-xs text-[#1A1A1A]/50 font-body">
@@ -124,35 +121,19 @@ export default function StageIntake({
               Add Another Idea (optional)
             </Button>
           )}
+        </div>
 
+        <div className="flex justify-center pt-2">
           <Button
-            type="submit"
-            className="w-full h-12 bg-primary hover:bg-primary/95 text-white font-medium rounded-lg transition-all"
+            type="button"
+            onClick={handleSubmit}
             disabled={isLoading || !isValidCount}
+            className="h-12 bg-primary hover:bg-primary/95 text-white font-medium rounded-lg transition-all px-8"
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                {ideas.length > 1 ? "Analyzing Concepts..." : "Parsing Concept..."}
-              </>
-            ) : ideas.length > 1 ? (
-              "Analyze Ideas"
-            ) : (
-              "Forge Concept"
-            )}
+            {isValidCount ? "Analyze Ideas" : "Enter at least 10 characters"}
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
-        </form>
-
-        {lastIdeaTitle && onRestoreLastIdea && (
-          <div className="pt-4 border-t border-[#1A1A1A]/10 text-center">
-            <button
-              onClick={onRestoreLastIdea}
-              className="text-xs text-primary font-medium hover:underline focus:outline-none"
-            >
-              Your last idea: "{lastIdeaTitle}" (Click to restore)
-            </button>
-          </div>
-        )}
+        </div>
       </CardContent>
     </Card>
   );
