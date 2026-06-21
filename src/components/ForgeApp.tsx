@@ -18,11 +18,13 @@ import {
   IdeaSynthesis,
   AlignmentAnalysis,
   MergePhaseSelection,
+  Interrogation,
+  InterrogationItem,
 } from "@/types/types";
 import { StrategicPosture, ResourceCategory } from "@/types/enums";
 
 import { runP1Intake } from "@/pipeline/p1Intake";
-import { runP2Risks } from "@/pipeline/p2Risks";
+import { runP2Risks, runP2InterrogateGenerate } from "@/pipeline/p2Risks";
 import { runP3Postures } from "@/pipeline/p3Postures";
 import { runP4Synthesis } from "@/pipeline/p4Synthesis";
 import { runP5Gate } from "@/pipeline/p5Gate";
@@ -89,6 +91,7 @@ interface AppState {
   supportCategories?: ResourceCategory[];
   matchedResources?: ResourceItem[];
   microActionDraft?: MicroActionDraft;
+  interrogation?: Interrogation;
 
   // FEATURE #1: Idea Versioning
   versioning?: VersioningState;
@@ -251,7 +254,6 @@ export default function ForgeApp() {
     const execute = async () => {
       try {
         let parsedIdea: IdeaJSON;
-        let risks: RiskRegister;
         let ideaSynthesis: IdeaSynthesis | undefined;
 
         if (ideas.length > 1) {
@@ -263,8 +265,22 @@ export default function ForgeApp() {
           if (synthesis.analysis.recommendation === "merge_as_one" && synthesis.analysis.unified_idea) {
             // Use unified idea
             parsedIdea = synthesis.analysis.unified_idea;
-            setLoadingLabel("Mapping risks for unified idea...");
-            risks = await runP2Risks(parsedIdea, state.profiles[0]);
+            setLoadingLabel("Generating interrogation...");
+            const interrogationData = await runP2InterrogateGenerate(parsedIdea);
+            saveState({
+              ...state,
+              raw_ideas: ideas,
+              parsedIdea,
+              interrogation: {
+                ...interrogationData,
+                isAnswered: false,
+              },
+              risks: undefined,
+              idea_synthesis: synthesis,
+              currentStep: 2,
+            });
+            setLoading(false);
+            return;
           } else if (synthesis.analysis.recommendation === "pursue_separately") {
             // User will need to select which idea to pursue
             // Save synthesis and wait for user selection
@@ -278,28 +294,43 @@ export default function ForgeApp() {
           } else {
             // conflicts_resolve_first - default to first idea for now
             parsedIdea = synthesis.original_ideas[0].parsed;
-            setLoadingLabel("Mapping risks...");
-            risks = await runP2Risks(parsedIdea, state.profiles[0]);
+            setLoadingLabel("Generating interrogation...");
+            const interrogationData = await runP2InterrogateGenerate(parsedIdea);
+            saveState({
+              ...state,
+              raw_ideas: ideas,
+              parsedIdea,
+              interrogation: {
+                ...interrogationData,
+                isAnswered: false,
+              },
+              risks: undefined,
+              idea_synthesis: synthesis,
+              currentStep: 2,
+            });
+            setLoading(false);
+            return;
           }
-
-          ideaSynthesis = synthesis;
         } else {
           // Single idea flow
           const parsed = await runP1Intake(ideas[0]);
           parsedIdea = parsed;
-          setLoadingLabel("Mapping risks...");
-          risks = await runP2Risks(parsed, state.profiles[0]);
+          setLoadingLabel("Generating interrogation...");
+          const interrogationData = await runP2InterrogateGenerate(parsed);
+          saveState({
+            ...state,
+            raw_ideas: ideas,
+            parsedIdea,
+            interrogation: {
+              ...interrogationData,
+              isAnswered: false,
+            },
+            risks: undefined,
+            currentStep: 2,
+          });
+          setLoading(false);
+          return;
         }
-
-        saveState({
-          ...state,
-          raw_ideas: ideas,
-          parsedIdea,
-          risks,
-          idea_synthesis: ideaSynthesis,
-          currentStep: 2,
-        });
-        setLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed during intake analysis.");
         setRetryAction({
@@ -327,22 +358,26 @@ export default function ForgeApp() {
 
     setError(null);
     setLoading(true);
-    setLoadingLabel("Mapping risks for selected idea...");
+    setLoadingLabel("Generating interrogation...");
 
     const execute = async () => {
       try {
         const selectedIdea = state.idea_synthesis!.original_ideas[selectedIndex].parsed;
-        const risks = await runP2Risks(selectedIdea, state.profiles[0]);
+        const interrogationData = await runP2InterrogateGenerate(selectedIdea);
 
         saveState({
           ...state,
           parsedIdea: selectedIdea,
-          risks,
+          interrogation: {
+            ...interrogationData,
+            isAnswered: false,
+          },
+          risks: undefined,
           currentStep: 2,
         });
         setLoading(false);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to map risks for selected idea.");
+        setError(err instanceof Error ? err.message : "Failed to generate interrogation for selected idea.");
         setRetryAction({
           label: "Retry Idea Selection",
           action: () => handleIdeaSelection(selectedIndex),
@@ -362,24 +397,66 @@ export default function ForgeApp() {
 
     setError(null);
     setLoading(true);
-    setLoadingLabel("Mapping risks for unified idea...");
+    setLoadingLabel("Generating interrogation...");
 
     const execute = async () => {
       try {
-        const risks = await runP2Risks(unifiedIdea, state.profiles[0]);
+        const interrogationData = await runP2InterrogateGenerate(unifiedIdea);
 
         saveState({
           ...state,
           parsedIdea: unifiedIdea,
-          risks,
+          interrogation: {
+            ...interrogationData,
+            isAnswered: false,
+          },
+          risks: undefined,
           currentStep: 2,
         });
         setLoading(false);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to map risks for unified idea.");
+        setError(err instanceof Error ? err.message : "Failed to generate interrogation for unified idea.");
         setRetryAction({
           label: "Retry Idea Merge",
           action: handleIdeaMerge,
+        });
+        setLoading(false);
+      }
+    };
+
+    execute();
+  };
+
+  // Stage 2 Interrogation Action: Submit Answers -> Generate Risks
+  const handleInterrogationSubmit = async (answeredItems: InterrogationItem[]) => {
+    if (!state.parsedIdea || !state.interrogation) return;
+    setError(null);
+    setLoading(true);
+    setLoadingLabel("Analyzing answers & mapping risks...");
+
+    const execute = async () => {
+      try {
+        const risks = await runP2Risks(
+          state.parsedIdea!,
+          answeredItems,
+          state.profiles[0]
+        );
+
+        saveState({
+          ...state,
+          risks,
+          interrogation: {
+            ...state.interrogation!,
+            items: answeredItems,
+            isAnswered: true,
+          },
+        });
+        setLoading(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to analyze answers and generate risks.");
+        setRetryAction({
+          label: "Retry Risk Generation",
+          action: () => handleInterrogationSubmit(answeredItems),
         });
         setLoading(false);
       }
@@ -894,6 +971,8 @@ export default function ForgeApp() {
               <StageRisks
                 idea={state.parsedIdea}
                 risks={state.risks}
+                interrogation={state.interrogation}
+                onInterrogateSubmit={handleInterrogationSubmit}
                 onNext={handleRisksNext}
                 isLoading={loading}
               />
