@@ -228,3 +228,16 @@ export interface AlignmentAnalysis {
   suggestions: AlignmentSuggestions;
   analyzed_at: string; // ISO timestamp
 }
+
+export interface InterrogationItem {
+  id: string;
+  question: string;
+  tested_risk: RiskItem;
+  answer?: string;
+}
+
+export interface Interrogation {
+  items: InterrogationItem[];
+  isAnswered: boolean;
+}
+

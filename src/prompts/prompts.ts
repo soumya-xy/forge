@@ -360,3 +360,56 @@ Output a JSON object with:
     unified_idea: IdeaJSON (only if recommendation is "merge_as_one")
   }
 `;
+
+export const p2InterrogateGeneratePrompt = (ideaJsonStr: string) => `
+You are an expert startup advisor and risk auditor.
+Analyze the following parsed startup idea:
+${ideaJsonStr}
+
+Identify 2 to 3 distinct, critical, ground-level operational or market friction points/reality checks (e.g. offline-to-online adoption hurdles, regulatory/compliance barriers, cash transactions bypassing formal platforms, trust issues in marketplaces, supply chain dependencies, or local customer behavior) that early-stage startups in this specific domain must face.
+
+Generate:
+1. For each friction point, a single, highly targeted, and direct friction question to ask the founder. It should force a bottom-up reality check (not a generic business question).
+2. The specific risk object (tested_risk) that this question evaluates. This risk should represent the exact failure mode if the founder cannot resolve this friction point. It should contain a severity rating (likelihood and impact).
+
+Output a JSON object with:
+- items: A JSON array of 2 to 3 objects, where each object contains:
+  - id: A unique string identifier (e.g., "risk-1", "risk-2", "risk-3").
+  - question: The highly targeted, direct question to ask the founder.
+  - tested_risk: An object representing the corresponding risk, with the following fields:
+    - risk_name: Short, punchy name of the risk.
+    - category: One of: "execution", "market", "personal", or "technical".
+    - likelihood: One of: "H", "M", or "L" (rating the likelihood of this risk if unaddressed).
+    - impact: One of: "H", "M", or "L" (rating the impact of this risk if unaddressed).
+    - description: A one-sentence explanation of what caused the project to fail retrospectively due to this friction point.
+`;
+
+export const p2RisksWithInterrogationPrompt = (
+  ideaJsonStr: string,
+  interrogationsJsonStr: string
+) => `
+You are conducting a Pre-Mortem Retrospective Analysis on this concept.
+Assume that 12 months from now, this startup has completely failed and collapsed. Let's work backwards and analyze exactly why it failed.
+
+Concept Data:
+${ideaJsonStr}
+
+During the intake process, the founder was asked 2 to 3 critical ground-level friction questions and provided answers:
+${interrogationsJsonStr}
+
+Your tasks:
+1. Evaluate the founder's Answer for each question.
+   - If the founder has a "good answer" (i.e. they present a realistic, viable plan, tracking mechanism, or mitigation strategy to handle the specific friction point), then this risk is considered mitigated. You should DROP this risk (do NOT include it in the final risk register).
+   - If the founder says "I don't know" (or variation thereof) or provides an evasive, inadequate, or unviable answer, then this friction point remains unresolved. It must be included in the final risk register at the top of the list, keeping its original likelihood and impact ratings.
+2. Generate additional critical, non-trivial failure modes for the startup to bring the total number of risks in the register to between 4 and 6. Do not sugarcoat them.
+3. Order the final risk register such that all unresolved/unmitigated interrogation risks (if any) are positioned at the very top (as the first items in the array), followed by the newly generated risks.
+
+For each failure mode in the final risk register, provide:
+- risk_name: Short name of the failure mode.
+- category: One of: "execution", "market", "personal", or "technical".
+- likelihood: One of: "H", "M", or "L" (as High, Medium, Low).
+- impact: One of: "H", "M", or "L" (as High, Medium, Low).
+- description: A one-sentence explanation of what caused the project to fail retrospectively.
+
+Output a JSON array of these risk objects. Ensure the total number of items is between 4 and 6.
+`;
