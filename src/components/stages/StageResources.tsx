@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { ResourceItem, IdeaJSON, CandidateExperiment, MilestonePlan, MicroActionDraft } from "@/types/types";
+import { ResourceItem, IdeaJSON, CandidateExperiment, MilestonePlan, MicroActionDraft, UserProfile, UpdatedRiskRegister, PivotSuggestion } from "@/types/types";
+import { UserRole, WeeklyHours, PrimaryGoal } from "@/types/enums";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink, RefreshCw, Bookmark, Calendar, Compass, Layers, Copy, Check, Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import RiskShiftBadge from "@/components/ui/RiskShiftBadge";
+import ConfidenceRing from "@/components/ui/ConfidenceRing";
+import { ExternalLink, RefreshCw, Bookmark, Calendar, Compass, Layers, Copy, Check, Sparkles, User, Clock, Target, AlertTriangle, X, TrendingUp } from "lucide-react";
 
 interface StageResourcesProps {
   idea?: IdeaJSON;
@@ -12,10 +16,48 @@ interface StageResourcesProps {
   roadmap?: MilestonePlan;
   matched?: ResourceItem[];
   draft?: MicroActionDraft;
+  profile?: UserProfile;
   onReset: () => void;
+  updatedRisks?: UpdatedRiskRegister;
+  pivotSuggestion?: PivotSuggestion;
+  onDismissPivot?: () => void;
 }
 
-export default function StageResources({ idea, chosenExperiment, roadmap, matched, draft, onReset }: StageResourcesProps) {
+// Helper to get nice labels
+const ROLE_LABEL: Record<UserRole, string> = {
+  [UserRole.STUDENT]: "Student",
+  [UserRole.EMPLOYED]: "Employed full-time",
+  [UserRole.BETWEEN_JOBS]: "Between jobs / freelance",
+  [UserRole.FOUNDER]: "Existing founder",
+};
+
+const HOURS_LABEL: Record<WeeklyHours, string> = {
+  [WeeklyHours.HRS_1_TO_5]: "1-5 hrs/wk",
+  [WeeklyHours.HRS_5_TO_10]: "5-10 hrs/wk",
+  [WeeklyHours.HRS_10_TO_20]: "10-20 hrs/wk",
+  [WeeklyHours.HRS_20_PLUS]: "20+ hrs/wk",
+};
+
+const GOAL_LABEL: Record<PrimaryGoal, string> = {
+  [PrimaryGoal.INCOME]: "Generate income",
+  [PrimaryGoal.LEARNING]: "Learn a new skill",
+  [PrimaryGoal.PORTFOLIO]: "Build portfolio",
+  [PrimaryGoal.IMPACT]: "Create impact",
+  [PrimaryGoal.EXIT]: "Build toward exit",
+};
+
+export default function StageResources({
+  idea,
+  chosenExperiment,
+  roadmap,
+  matched,
+  draft,
+  profile,
+  onReset,
+  updatedRisks,
+  pivotSuggestion,
+  onDismissPivot
+}: StageResourcesProps) {
   const [copied, setCopied] = useState(false);
 
   if (!idea || !chosenExperiment || !roadmap || !matched) return null;
@@ -37,6 +79,118 @@ export default function StageResources({ idea, chosenExperiment, roadmap, matche
 
   return (
     <div className="space-y-12 fade-in">
+      {/* Pivot Suggestion Alert */}
+      {pivotSuggestion && pivotSuggestion.should_pivot && (
+        <div className="p-6 bg-amber-50 border-2 border-amber-300 rounded-xl space-y-4">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0" />
+              <div>
+                <h3 className="text-lg font-bold text-amber-900 font-headline">Pivot Recommended</h3>
+                <p className="text-sm text-amber-800/80 font-body mt-1">
+                  Based on your experiment results, we recommend a strategic change.
+                </p>
+              </div>
+            </div>
+            {onDismissPivot && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onDismissPivot}
+                className="h-8 w-8 p-0 text-amber-700 hover:bg-amber-100"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-amber-900 font-headline">
+              {pivotSuggestion.pivot_direction}
+            </div>
+            <p className="text-sm text-amber-800 font-body leading-relaxed">
+              {pivotSuggestion.supporting_evidence}
+            </p>
+            <div className="flex items-center gap-4 text-xs text-amber-700/70 font-body">
+              <span>Confidence: {pivotSuggestion.confidence_before} → {pivotSuggestion.confidence_after}</span>
+              <span>
+                ({pivotSuggestion.confidence_after > pivotSuggestion.confidence_before ? '+' : ''}
+                {pivotSuggestion.confidence_after - pivotSuggestion.confidence_before}%)
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Updated Risk Analysis */}
+      {updatedRisks && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-bold text-[#1A1A1A]/70 font-headline">
+              Updated Risk Analysis (Based on Real Data)
+            </h3>
+            <Badge variant="outline" className="text-xs bg-white">
+              <TrendingUp className="w-3 h-3 mr-1 inline" />
+              Live Analysis
+            </Badge>
+          </div>
+
+          {/* Confidence Ring */}
+          <div className="flex justify-center">
+            <ConfidenceRing
+              confidence={updatedRisks.overall_confidence}
+              size={140}
+              strokeWidth={10}
+              label="Overall"
+              showPercentage={true}
+              animate={true}
+            />
+          </div>
+          {updatedRisks.risk_shifts.length > 0 ? (
+            <div className="space-y-2">
+              {updatedRisks.risk_shifts.map((shift, idx) => (
+                <RiskShiftBadge
+                  key={idx}
+                  fromLevel={shift.from_level}
+                  toLevel={shift.to_level}
+                  rationale={shift.rationale}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="p-4 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-700 font-body">
+              No risk changes detected yet. Continue logging experiments.
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Profile Recap (if user filled P0) */}
+      {profile && (profile.role || profile.hours || profile.goal) && (
+        <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg flex flex-wrap items-center gap-4 text-xs">
+          <div className="flex items-center gap-2 font-bold text-primary/90">
+            <User className="w-3.5 h-3.5" />
+            <span>Plan generated for:</span>
+          </div>
+          {profile.role && (
+            <div className="flex items-center gap-1.5 text-[#1A1A1A]/80">
+              <span className="font-semibold">{ROLE_LABEL[profile.role]}</span>
+            </div>
+          )}
+          {profile.hours && (
+            <div className="flex items-center gap-1.5 text-[#1A1A1A]/80">
+              <Clock className="w-3.5 h-3.5" />
+              <span>{HOURS_LABEL[profile.hours]}</span>
+            </div>
+          )}
+          {profile.goal && (
+            <div className="flex items-center gap-1.5 text-[#1A1A1A]/80">
+              <Target className="w-3.5 h-3.5" />
+              <span>{GOAL_LABEL[profile.goal]}</span>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Top Concept Card */}
       <div className="p-8 bg-[#EDEDEA] rounded-xl text-center space-y-4 border border-stone-300/30">
         <h2 className="text-4xl font-headline tracking-tight text-[#1A1A1A]">

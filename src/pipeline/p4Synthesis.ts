@@ -3,7 +3,14 @@
 import { z } from 'genkit';
 import { callGemini } from '@/lib/geminiClient';
 import { p4SynthesisPrompt } from '@/prompts/prompts';
-import { IdeaJSON, RiskRegister, FounderScenarios, MilestonePlan } from '@/types/types';
+import {
+  IdeaJSON,
+  RiskRegister,
+  PostureSelection,
+  MilestonePlan,
+  UserProfile,
+} from '@/types/types';
+import { StrategicPosture } from '@/types/enums';
 
 const MilestoneSchema = z.object({
   focus: z.string().describe('The primary focus of this 30-day block'),
@@ -21,12 +28,14 @@ const MilestonePlanSchema = z.object({
 export async function runP4Synthesis(
   idea: IdeaJSON,
   risks: RiskRegister,
-  scenarios: FounderScenarios
+  postures: PostureSelection,
+  profile?: UserProfile,
+  chosenPosture?: StrategicPosture,
 ): Promise<MilestonePlan> {
   const ideaJsonStr = JSON.stringify(idea, null, 2);
   const riskRegisterStr = JSON.stringify(risks, null, 2);
-  const scenariosStr = JSON.stringify(scenarios, null, 2);
-  const prompt = p4SynthesisPrompt(ideaJsonStr, riskRegisterStr, scenariosStr);
+  const posturesStr = JSON.stringify(postures, null, 2);
+  const prompt = p4SynthesisPrompt(ideaJsonStr, riskRegisterStr, posturesStr, profile, chosenPosture);
   return await callGemini<MilestonePlan>({
     prompt,
     schema: MilestonePlanSchema,
